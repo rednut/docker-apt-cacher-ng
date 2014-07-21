@@ -9,13 +9,17 @@
 #### dockr run -name apt-cacher-data -v /var/cache  busybox true
 
 
-FROM ubuntu
+FROM ubuntu:precise
 MAINTAINER stuart nixon <dotcomstu@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y apt-cacher-ng
-RUN ln -s /var/cache/apt-cacher-ng /cache
+RUN mkdir -p /data/cache /data/logs/
 
-ENTRYPOINT [ "/usr/sbin/apt-cacher-ng", "ForeGround=1", "CacheDir=/var/cache/apt-cacher-ng" ]
-VOLUME [ "/cache/" ]
+WORKDIR /data
+
+
+CMD ["apt-cacher-ng", "ForeGround=1", "CacheDir=/data/cache/", "LogDir=/data/logs/", "NetworkTimeout=300", "VerboseLog=2", "Debug=5"]
+#######CMD ["/usr/sbin/apt-cacher-ng", "ForeGround=1", "CacheDir=/cache/", "LogDir=/cache/logs/"]
+VOLUME ["/data/"]
 EXPOSE 3142
