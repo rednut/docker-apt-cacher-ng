@@ -9,7 +9,7 @@
 #### dockr run -name apt-cacher-data -v /var/cache  busybox true
 
 
-FROM ubuntu:precise
+FROM rednut/ubuntu
 MAINTAINER stuart nixon <dotcomstu@gmail.com>
 ENV DEBIAN_FRONTEND noninteractive
 
